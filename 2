@@ -1,0 +1,237 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+    //VARIABLES DEL PROGRAMA
+    bool bandera=false;
+    int opcion1;
+    //VARIABLES PARA INGRESAR COMO ADMINISTRADOR
+    int pass;
+    int cr=1234;
+    //VARIABLES PARA AGREGAR PRODUCTOS
+    int  add;
+    string id;
+    string nombreproducto;
+    string unidades;
+    string costo;
+    string agregar;
+    ifstream fileadd;
+    ofstream filewr;
+    //VARIABLES PARA COMBOS
+    int combo;
+    //VARIABLES PARA MOSTRAR EL INVENTARIO
+    int cantidadunidades=1;
+    int nombreproducto1;
+    int unidades1;
+    int costo1;
+    //VARIABLES PARA INGRESAR COMO USUARIO
+    string cedula;
+    string clave;
+    ifstream fileread;
+    ofstream filewrite;
+    filewrite.open("111111.txt");
+    filewrite<<"unicornio;39000"<<endl;
+    filewrite.close();
+    ifstream fileread1;
+    ofstream filewrite1;
+    filewrite1.open("222222.txt");
+    filewrite1<<"jingle jangle; 58000"<<endl;
+    filewrite1.close();
+    cout << "BIENVENIDO AL PROCESO DE ATOMATICO DE COMPRA Y VENTA DE COMIDAS ROYAL MOVIES" << endl;
+    //DIA 1, CREANDO LA INTERFAZ DE USUARIO Y ADMINISTRADOR
+    while (bandera==false)
+    {
+        cout<<endl;
+        cout<<"PARA ACCEDER COMO USUARIO PRESIONE (1): "<<endl;
+        cout<<endl;
+        cout<<"PARA ACCEDER COMO ADMINISTRADOR PRESIONE (2)"<<endl;
+        cout<<endl;
+        cin>>opcion1;
+        if (opcion1==1)
+        {
+            cout<<"Ingrese su cedula:  "<<endl;
+            cin>>cedula;
+            cout<<"Ingrese su clave:  "<<endl;
+            cin>>clave;
+            //leyendo el archivo
+            string abrir=cedula+".txt";
+            fileread.open(abrir);
+            fileread.seekg(0);
+            string codigouser;
+            while (fileread.good())
+            {
+                char temp= fileread.get();
+
+                if (fileread.good())
+                {
+                    codigouser.push_back(temp);
+
+                }
+
+
+            }
+             cout<<"los datoa del usuario son  "<<codigouser<<endl;
+            fileread .close();
+            int lendatosuser=codigouser.size();
+            string mostrarclave;
+            string saldototal;
+            int coma=0;
+            bool ban=false;
+            //SACANDO LA CLAVE DEL ARCHIVO
+            //---------------------------------------------------------------------
+
+            for (int i=0;i<lendatosuser;i++)
+            {
+
+                if (codigouser[i]==';' or ban==true)
+                {
+                    coma=coma+1;
+                    if (coma==1 or ban==true)
+                   {   if (codigouser[i]==';')
+                       {
+
+                       }
+                       else
+                       {
+                       saldototal+=codigouser[i];
+                       }
+                    ban=true;
+                }
+
+                }
+                if (coma==0)
+                {
+                    mostrarclave+=codigouser[i];
+                }
+
+                }
+
+
+
+            if (mostrarclave==clave)
+            {
+                cout<<"BIENVENIDO! "<<endl;
+
+                //AQUÍ SE VAN A MOSTRAR LOS COMBOS DISPONIBLES
+
+
+                //AQUÍ SE VA A PODER SELECCIONAR EL COMBO
+                cout<<endl;
+                cout<<"PRESIONE EL NUMERO DEL COMBO QUE DESEA COMPRAR : "<<endl;
+                cout<<endl;
+                cin>>combo;
+                //AQUÍ SE VA A SACAR EL PRECIO DEL COMBO SELECCIONADO
+
+                //AQUÍ SE VA A REALIZAR EL PAGO
+
+                //AQUÍ SE VA A ACTUALIZAR EL INVENTARIO
+
+                //AQUÍ SE VA A ACTUALIZAR LA DISPONIBILIDAD DE LOS COMBOS
+            }
+            else
+            {
+                cout<<endl;
+                cout<<"LA CLAVE ES INCORRECTA O EL USUARIO NO EXISTE"<<endl;
+                cout<<endl;
+                bandera=false;
+            }
+
+
+        }
+        if (opcion1==2)
+        {
+
+            cout<<"Ingrese su contrasena de administrador: "<<endl;
+            cin>>pass;
+            if (pass==cr)
+            {
+            cout<<endl;
+            cout<<"PARA MOSTRAR PRODUCTOS PRESIONE (1): "<<endl;
+            cout<<endl;
+            cout<<"PARA AGREGAR PRODUCTOS AL INVENTARIO PRESIONE (2):  "<<endl;
+            cout<<endl;
+            cout<<"PARA CREAR COMBO PRESIONE (3):  "<<endl;
+            cout<<endl;
+            cout<<"PARA GENERAR REPORTE DE VENTAS PRESIONE (4):  "<<endl;
+            cout<<endl;
+            cin>>add;
+            if (add==1)
+            {   // AQUÍ SE VA A EXTRAER LA INFORMACIÓN DEL INVENTARIO
+
+                //MOSTRANDO EL INVENTARIO DE PRODUCTOS
+
+                cout<<"ID ";
+                cout<<"            Producto ";
+                cout<<"          Cantidad ";
+                cout<<"     Costo ";
+                while (cantidadunidades!=0)
+                {
+
+                    cout<<"            ";
+                    cout<<nombreproducto1;
+                    cout<<"           ";
+                    cout<<unidades1;
+                    cout<<"     ";
+                    cout<<costo1;
+                    cout<<endl;
+                    cantidadunidades-=1;
+                }
+
+            }
+
+            if (add==2)
+            {
+                //AGREGANDO AL INVENTARIO
+
+                cout<<endl;
+                cout<<"INGRESE EL ID DEL PRODUCTO: "<<endl;
+                cin>>id;
+                cout<<endl;
+                cout<<"INGRESE EL NOMBRE DEL PRODUCTO: "<<endl;
+                cin>>nombreproducto;
+                cout<<endl;
+                cout<<"INGRESE LA CANTIDAD DE UNIDADES DISPONIBLES: "<<endl;
+                cin>>unidades;
+                cout<<endl;
+                cout<<"INGRESE EL COSTO DEL PRODUCTO: "<<endl;
+                cin>>costo;
+                cout<<endl;
+                cout<<"Producto agregado al inventario exitosamente! "<<endl;
+               agregar+=nombreproducto;
+               agregar+=",";
+               agregar+=unidades;
+               agregar+=",";
+               agregar+=costo;
+               id+=".txt";
+               //
+               ofstream producto(id.c_str(),ios::binary);
+               producto<<id<<endl;
+               producto.close();
+               //
+               //
+               filewr.open(id);
+               filewr<<agregar<<endl;
+               filewr.close();
+               //
+            }
+            if (add==3)
+            {
+                cout<<"LOS PRODUCTOS DISPONIBLES PARA CREAR LOS NUEVOS COMBOS SON: "<<endl;
+
+            }
+            if (add==4)
+            {
+                    cout<<"BIENVENIDO AL REPORTE DE VENTAS "<<endl;
+                    cout<<endl;
+                    cout<<"LAS VENTAS DE HOY FUERON LAS SIGUIENTES: "<<endl;
+                    cout<<endl;
+            }
+            }
+
+    }
+
+    return 0;
+}
+}
